@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import TodoItem from '@/components/TodoItem.vue'
 
 interface Todo {
@@ -13,11 +13,14 @@ const newTodoText = ref('')
 const form = ref<HTMLInputElement | null>(null)
 
 const addTodo = () => {
+  console.log("addTodo");
+  
   if (newTodoText.value) {
     todos.value.push({
       text: newTodoText.value,
       completed: false
     })
+    console.log(todos.value);
     newTodoText.value = ''
   } else {
     form.value.reportValidity()
@@ -25,22 +28,22 @@ const addTodo = () => {
 }
 
 const toggleTodo = (item: Todo) => {
+  console.log("toggleTodo", item);
   item.completed = !item.completed
 }
 
 const deleteTodo = (item: Todo) => {
+  if(!item.completed) return
   const index = todos.value.indexOf(item)
   if (index > -1) {
     todos.value.splice(index, 1)
   }
 }
 
-const editTodo = (item: Todo, newText: string) => {
-  const index = todos.value.indexOf(item)
-  if (index > -1) {
-    todos.value[index].text = newText
-  }
-}
+watch(todos,()=>{
+  console.log(todos.value);
+  
+})
 </script>
 
 <template>
@@ -58,7 +61,6 @@ const editTodo = (item: Todo, newText: string) => {
         :item="item"
         @toggle="toggleTodo"
         @delete="deleteTodo"
-        @edit="editTodo"
       />
     </ul>
   </form>

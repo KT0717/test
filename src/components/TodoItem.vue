@@ -16,8 +16,8 @@ const completed = ref(props.item.completed)
 <template>
   <li class="todo-item">
     <input type="checkbox" v-model="completed" @change="emit('toggle', item)" />
-    <span :class="{ completed }">{{ item.text }}</span>
-    <button @click="emit('delete', item)">Delete</button>
+    <span class="text" :class="{ completed }">{{ item.text }}</span>
+    <button type="button" @click="emit('delete', item)">Delete</button>
   </li>
 </template>
 
@@ -32,5 +32,10 @@ const completed = ref(props.item.completed)
 .completed {
   text-decoration: line-through;
   color: #999;
+}
+
+.text {
+  margin: 0 5px;
+  padding: 0 5px;
 }
 </style>
